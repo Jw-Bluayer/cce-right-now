@@ -2,8 +2,8 @@
 CCE RIGHT NOW!
 
 # Dependencies
-flask
-flask-sqlalchemy
-flask-restless
-flask-migrate
-flask-login
+* flask
+* flask-sqlalchemy
+* flask-restless
+* flask-migrate
+* flask-login
