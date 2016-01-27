@@ -34,13 +34,9 @@ userComment = db.Table('user-comment',
 	db.Column('user_id', db.String(8), db.ForeignKey('user.id'), nullable=False),
 	db.Column('comment_id', db.Integer, db.ForeignKey('comment.id'), nullable=False)
 )
-postSubject = db.Table('post-subject',
+postHashtag = db.Table('post-hashtag',
 	db.Column('post_id', db.Integer, db.ForeignKey('post.id'), nullable=False),
-	db.Column('subject_id', db.Integer, db.ForeignKey('subject.id'), nullable=False)
-)
-postPlace = db.Table('post-place',
-	db.Column('post_id', db.Integer, db.ForeignKey('post.id'), nullable=False),
-	db.Column('place_id', db.Integer, db.ForeignKey('place.id'), nullable=False)
+	db.Column('hashtag_id', db.Integer, db.ForeignKey('hashtag.id'), nullable=False)
 )
 
 class User(db.Model):
@@ -83,16 +79,11 @@ class Post(db.Model):
 	op_id = db.Column(db.String(8), db.ForeignKey('user.id'), default=lambda: current_user.id, nullable=False)
 	time = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 	image = db.Column(db.String())
-	places = db.relationship('Place', secondary=postPlace, backref=db.backref('posts', lazy='dynamic'))
-	subjects = db.relationship('Subject', secondary=postSubject, backref=db.backref('posts', lazy='dynamic'))
+	hashtag = db.relationship('Hashtag', secondary=postHashtag, backref=db.backref('posts', lazy='dynamic'))
 	people = db.relationship('User', secondary=userPost, backref=db.backref('taggedPost', lazy='dynamic'))
 	comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
-class Place(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(), unique=True, nullable=False)
-
-class Subject(db.Model):
+class Hashtag(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(), unique=True, nullable=False)
 
